@@ -26,7 +26,7 @@ services:
   backend:
     build:
       context: ./proybackendgrupo08
-    image: backend-image
+    image: raquelvirreyra/backend:latest
     container_name: backend-container
     environment:
       - MONGODB_URI=mongodb://root:root@mongodb-container:27017/proyectofinalbd?authSource=admin
@@ -38,12 +38,24 @@ services:
   frontend:
     build:
       context: ./proyfrontendgrupo08
-    image: frontend-image
+    image: raquelvirreyra/frontend:latest
     container_name: frontend-container
     ports:
       - "80:80"
     networks:
       - tpfinalhia
+
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower-container
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - WATCHTOWER_POLL_INTERVAL=10
+    depends_on:
+      - backend
+      - frontend
+    restart: always
 
 networks:
   tpfinalhia:
