@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  build-backend:
+  deploy-backend:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -26,7 +26,7 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/backend:latest
 
-  build-frontend:
+  deploy-frontend:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
