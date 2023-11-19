@@ -1,0 +1,35 @@
+<div class="container-fluid">
+    <app-header></app-header>
+    <div class="container-fluid m-3">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-12">
+                <h3>Graficos Por: </h3>
+                <button class="btn btn-secondary m-1" (click)="participantesChar()">Por Participante</button>
+                <button class="btn btn-secondary m-1" (click)="oficinasChar()">Por Oficina</button>
+                <button class="btn btn-secondary m-1" (click)="tipoReunionChar()">Por Tipo de Reunion</button>
+                <button class="btn btn-secondary m-1" (click)="mesChar()">Por Mes</button>
+                <button class="btn btn-secondary m-1" (click)="anioChar()">Por Año</button>
+                <button class="btn btn-secondary m-1" (click)="periodoChar()">Por Periodo de Tiempo</button>
+                <label for="dateStart">desde</label>
+                <input type="date" id="dateStart" name="dateStart" [(ngModel)]="dateStart">
+                <label for="dateEnd">Hasta</label>
+                <input type="date" id="dateEnd" name="dateEnd" [(ngModel)]="dateEnd">
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-12 col-md-6 me-4">
+                <h3>Grafico de Barra</h3>
+                <div style="height:500px;width:100%">
+                    <canvas id="chartBar"></canvas>
+                </div>
+            </div>
+            <div class="col-12 col-md-5">
+                <h3>Grafico de Torta</h3>
+                <div style="height:500px;width:100%">
+                    <canvas id="chartPie"></canvas>
+                </div>
+            </div>
+        </div>
+    </div><br><br><br>
+    
+</div>

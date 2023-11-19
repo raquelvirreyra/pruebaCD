@@ -1,0 +1,81 @@
+<div class="container-fluid">
+    <app-header></app-header>
+    <div class="container-xl">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-6">
+                <h1>Alta de Empleado</h1>
+                <form action="" class="border rounded-2 p-3 needs-validation" novalidate #empleadoForm="ngForm">
+                    <div class="form-group">
+                        <label for="legajo" class="mt-3">Legajo:</label>
+                        <input type="number" class="form-control" [(ngModel)]="empleado.Legajo" name="legajo"
+                            id="legajo" #legajo="ngModel" required>
+                        <div *ngIf="legajo.invalid && (legajo.dirty || legajo.touched)" class="text-danger">
+                            <div *ngIf="legajo.errors?.['required']">Campo Obligatorio!</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="apellido" class="mt-3">Apellido:</label>
+                        <input type="text" class="form-control" [(ngModel)]="empleado.Apellido" name="apellido"
+                            id="apellido" #apellido="ngModel" required>
+                        <div *ngIf="apellido.invalid && (apellido.dirty || apellido.touched)" class="text-danger">
+                            <div *ngIf="apellido.errors?.['required']">Campo Obligatorio!</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="nombre" class="mt-3">Nombre</label>
+                        <input type="text" class="form-control" [(ngModel)]="empleado.Nombre" name="nombre" id="nombre"
+                            #nombre="ngModel" required>
+                        <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="text-danger">
+                            <div *ngIf="nombre.errors?.['required']">Campo Obligatorio!</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="mt-3">Email</label>
+                        <input type="text" class="form-control" [(ngModel)]="empleado.Email" name="email" id="email"
+                            #email="ngModel" required>
+                        <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger">
+                            <div *ngIf="email.errors?.['required']">Campo Obligatorio!</div>
+                        </div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="recursos" class="mt-3">Dependencias</label>
+                        <select class="form-select" name="dependencias" id="dependencia" [(ngModel)]="dependencia">
+                            <option [ngValue]="dep" *ngFor="let dep of dependencias">{{dep.nombre}}</option>
+                        </select>
+                        <button class="btn btn-primary m-3" type="button"
+                            (click)="agregarDependencia(dependencia)">Agregar</button>
+                    </div>
+                    <div *ngIf="dependenciasAgregar.length!=0">
+                        <h5>Dependencias del Empleado: </h5>
+
+                        <table class="table table-responsive table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Nombre</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let depen of dependenciasAgregar">
+                                    <td>{{depen.nombre}}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-secondary"
+                                            (click)="quitarDependencia(depen)">Quitar Dependencia</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <button *ngIf="accion=='new'" type="submit" class="btn btn-primary mt-4 mb-3 me-3"
+                        (click)="altaEmpleado()" [disabled]="empleadoForm.invalid">Guardar</button>
+                    <button *ngIf="accion=='update'" type="button" class="btn btn-primary  mt-4 mb-3"
+                        (click)="actualizarEmpleado()" [disabled]="empleadoForm.invalid">Actualizar</button>
+                    <button type="button" class="btn btn-primary  mt-4 mb-3" (click)="cerrar()">Cerrar</button>
+                </form>
+            </div>
+        </div>
+
+    </div><br><br><br><br><br><br><br>
+   
+</div>
+<app-footer></app-footer>

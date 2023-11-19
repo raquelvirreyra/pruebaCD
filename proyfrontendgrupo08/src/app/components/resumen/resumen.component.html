@@ -1,0 +1,70 @@
+<div class="container-fluid">
+  <app-header *ngIf="loginService.userLoggedIn()"></app-header>
+  <div class="container-xl">
+    <div class="row">
+      <div *ngIf="loginService.userLoggedIn()==false"> 
+        <h1 class="text-center"> Reunion Validada con Exito</h1>
+       
+      </div>
+      <div id="htmlData" >
+
+        <div class="row">
+          <h2 class="col-12 m-3 text-center">Resumen Reuniones</h2>
+        </div>
+        
+        <br>
+        <h6>Participantes:  
+          <li *ngFor="let emp of reunion.participantes">{{emp.Nombre}} {{emp.Apellido}} - Legajo: {{emp.Legajo}}
+          </li>
+        </h6>
+        <h6>Recursos: 
+        <li *ngFor="let recu of reunion.recursos">Recurso:{{recu.recurso}} - TipoRecurso: {{recu.tipoRecurso}}
+        </li> 
+        </h6>
+        <table class="table table-hover caption-top table-bordered  table-responsive mt-4">
+          <thead class="table-success">
+            <tr>
+              <th scope="col">Fecha</th>
+              <th scope="col">Hora Inicio</th>
+              <th scope="col">Hora Fin</th>
+              <th scope="col">Oficina</th>
+              <th scope="col">TipoReunion</th>
+              <th scope="col">EstadoReunion</th>
+            
+              
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{reunion.fecha }}</td>
+              <td>{{reunion.horaInicio}}</td>
+              <td>{{reunion.horaFin}}</td>
+              <td>{{reunion.oficina.numero}}</td>
+              <td>{{reunion.tipoReunion}}</td>
+              <td>{{reunion.estadoReunion}}</td>
+             
+            </tr> 
+          </tbody>
+        </table>
+        <div *ngIf="loginService.userLoggedIn()==true">
+          <ngx-qrcode
+            [elementType]="elementType" 
+            [value]="value"
+            cssClass="aclass">
+          </ngx-qrcode>
+        </div>
+      
+    </div>
+  
+
+  
+  
+  <div *ngIf="loginService.userLoggedIn()==true">
+    <button class="btn col col-lg-4 btn-danger btn-block ml-4 mb-5" (click)="downloadPDF()">Download PDF</button>
+  </div>
+</div>
+
+  </div><br><br><br><br><br><br><br><br><br><br><br>
+  
+</div>
+<app-footer *ngIf="loginService.userLoggedIn()"></app-footer>

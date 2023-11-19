@@ -1,0 +1,56 @@
+<div class="container-fluid">
+    <app-header></app-header>
+
+    <div class="container-xl">
+        <div class="container p-0"><br><br><br><br>
+            <div class="row">
+                
+                <div class="col-5 d-none d-lg-block">
+                    <!-- IMAGEN DEL LOGO DE LA EMPRESA -->
+                    <img class="img" src="/assets/Emp.png"
+                        alt="">
+                </div>
+                <div class="col-12 col-md-7">
+                    <main class="form-signin" >
+                        <form #loginForm="ngForm">
+                          <h2 class="fw-bold text-center py-5">Bienvenido</h2>
+                      
+                          <div class="row g-3">
+                            <label class="col-3 col-form-label col-form-label-lg text-end "
+                                for="username">Username</label>
+                            <div class="col-9">
+                                <input type="text" class="form-control ms-3" name="username"
+                                    [(ngModel)]="userform.username" #username="ngModel" required>
+                                <div *ngIf="username.invalid && (username.dirty || username.touched)"
+                                    class="text-danger mt-1 ms-3">
+                                    <div *ngIf="username.errors?.['required']">Campo Obligatorio!</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-3">
+                            <label class="col-3 col-form-label col-form-label-lg text-end"for="password">Password</label>
+                            <div class="col-9">
+                                <input type="password" class="form-control ms-3" name="password"
+                                    [(ngModel)]="userform.password" #pass="ngModel" required>
+                                <div *ngIf="pass.invalid && (pass.dirty || pass.touched)" class="text-danger mt-1 ms-3">
+                                    <div *ngIf="pass.errors?.['required']">Campo Obligatorio!</div>
+                                </div>
+                            </div>
+                        </div>
+                            <button class="w-100 btn btn-lg btn-primary mt-3 ms-2" type="submit" (click)="login()"
+                                [disabled]="loginForm.invalid">Iniciar Sesion</button>
+                          <div class="form-group my-3 text-center">
+                            <span class="mt-5 mb-3 text-muted" >No tienes cuenta?</span><button class="btn btn-outline-success btn-sm ms-2"
+                                (click)="usuarioForm()">Crear Cuenta</button>
+                        </div>
+                        </form>
+                      </main>
+                    
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br>
+</div>
+<app-footer></app-footer>

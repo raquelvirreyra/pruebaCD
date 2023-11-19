@@ -1,0 +1,186 @@
+<header class="margen">
+  <nav class="navbar navbar-expand-xl fixed-top color">
+    <div class="container-fluid">
+      <a class="navbar-brand">
+        <img src="./assets/dn.ico" alt="EMPRESAURIOS" width="33" height="35">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample06"
+        aria-controls="navbarsExample06" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarsExample06">
+        <ul class="navbar-nav me-auto mb-2 mb-xl-0">
+          <li class="nav-item">
+            <a class="nav-link text-white" aria-current="page" href="home">Inicio</a>
+          </li>
+          <div *ngIf="loginService.userLoggedIn()&&loginService.userPerfil()=='Administrador'">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                Gestion de Empleados
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="formEmpleado/0">Alta Empleado</a></li>
+                <li><a class="dropdown-item " href="empleado">Tabla de Empleados</a></li>
+              </ul>
+            </li>
+          </div>
+          <div *ngIf="loginService.userLoggedIn()&&loginService.userPerfil()=='Administrador'">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                Gestion de Reuniones
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="formReunion/0">Alta Reunion</a></li>
+                <li><a class="dropdown-item " href="tablaReunion">Tabla de Reuniones</a></li>
+                <li><a class="dropdown-item " href="estadisticas">Estadisticas</a></li>
+              </ul>
+            </li>
+          </div>
+          <div *ngIf="loginService.userLoggedIn()">
+            <li><a href="calendario" class="nav-link text-white">Calendario</a></li>
+          </div>
+          <div *ngIf="loginService.userLoggedIn()&&loginService.userPerfil()!='Administrador'">
+            <li><a href="agenda" class="nav-link text-white">Audiencias</a></li>
+          </div>
+          <div *ngIf="loginService.userLoggedIn()&&loginService.userPerfil()!='Administrador'">
+            <li><a href="busqueda" class="nav-link text-white">Busquedas</a></li>
+          </div>
+        </ul>
+        <div class="me-4 dropdown text-end" *ngIf="loginService.userPerfil()=='Participante'">
+          <a href="#" class="d-block link-dark text-decoration-none text-white dropdown-toggle" id="dropdownUser2"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            <!-- <img src="./assets/notification.png" alt="" width="28" height="28" class="rounded-circle me-2 bg bg-white"> -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-bell me-2"
+              viewBox="0 0 16 16">
+              <path
+                d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z" />
+            </svg>
+            <p class="d-inline" [ngClass]="{'text-danger':cNoti!=0}">{{cNoti}}</p>
+          </a>
+          <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser2">
+            <div *ngFor="let noti of notificaciones" class="row">
+              <h6 class="text-center">
+                <label for="">Leido</label>
+                <input type="checkbox" name="leido" [(ngModel)]="noti.leido" (change)="actualizarLeido(noti)">
+              </h6>
+              <li class=""><a class="dropdown-item" href="#"
+                  [ngClass]="{'bg bg-secondary text-white':noti.leido==false}">Reunion Fecha: {{noti.reunion.fecha}}
+                  <br>
+                  Prioridad: {{noti.reunion.tipoReunion}}
+                  <br>
+                  <hr class="dropdown-divider">
+                </a></li>
+            </div>
+
+          </ul>
+        </div>
+        <div *ngIf="!loginService.userLoggedIn()">
+          <button class="p-1 me-2  btn btn-outline-light" (click)="login()">Iniciar Sesion</button>
+          <!-- <button class="p-1 btn btn-warning" (click)="usuarioForm()">Registrarse</button> -->
+        </div>
+        <div class="dropdown text-start" *ngIf="loginService.userLoggedIn()">
+          <a href="#" class="d-block link-dark text-decoration-none text-white dropdown-toggle" id="dropdownUser1"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            <span class="me-2">Usuario : {{loginService.userLogged()}}</span><img src="./assets/person.jpg" alt="mdo"
+              width="32" height="32" class="rounded-circle">
+          </a>
+          <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+            <li><a class="dropdown-item disabled" disabled>Usuario : {{loginService.userLogged()}} </a></li>
+            <li><a class="dropdown-item disabled" disabled>Perfil: {{loginService.userPerfil()}}</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item" (click)="logout()">Cerrar Sesion</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<!-- <header class="p-2 bg-dark text-white mb-3 row">
+  <div class="container">
+    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+      <a class="navbar-brand">
+        <img src="./assets/dn.ico" alt="" width="33" height="35">
+      </a>
+      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+        <li><a href="home" class="nav-link px-2 text-white">Inicio</a></li>
+        <div *ngIf="loginService.userLoggedIn()&&loginService.userPerfil()=='Administrador'">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              Gestion de Empleados
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="formEmpleado/0">Alta Empleado</a></li>
+              <li><a class="dropdown-item " href="empleado">Tabla de Empleados</a></li>
+            </ul>
+          </li>
+        </div>
+        <div *ngIf="loginService.userLoggedIn()&&loginService.userPerfil()=='Administrador'">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              Gestion de Reuniones
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="formReunion/0">Alta Reunion</a></li>
+              <li><a class="dropdown-item " href="tablaReunion">Tabla de Reuniones</a></li>
+              <li><a class="dropdown-item " href="estadisticas">Estadisticas</a></li>
+            </ul>
+          </li>
+        </div>
+        <div *ngIf="loginService.userLoggedIn()">
+          <li><a href="calendario" class="nav-link px-2 text-white">Calendario</a></li>
+        </div>
+        <div *ngIf="loginService.userLoggedIn()&&loginService.userPerfil()!='Administrador'">
+          <li><a href="agenda" class="nav-link px-2 text-white">Audiencias</a></li>
+        </div>
+      </ul>
+
+      <div class="me-4 dropdown text-end" *ngIf="loginService.userPerfil()=='Participante'">
+        <a href="#" class="d-block link-dark text-decoration-none text-white dropdown-toggle" id="dropdownUser2"
+          data-bs-toggle="dropdown" aria-expanded="false">
+          <img src="./assets/notification.png" alt="" width="28" height="28" class="rounded-circle bg bg-white">
+          <p class="d-inline" [ngClass]="{'text-danger':cNoti!=0}">{{cNoti}}</p>
+        </a>
+        <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser2">
+          <div *ngFor="let noti of notificaciones" class="row">
+            <h6 class="text-center">
+              <label for="">Leido</label>
+              <input type="checkbox" name="leido" [(ngModel)]="noti.leido" (change)="actualizarLeido(noti)">
+            </h6>
+            <li class=""><a class="dropdown-item" href="#"
+                [ngClass]="{'bg bg-secondary text-white':noti.leido==false}">Reunion Fecha: {{noti.reunion.fecha}}
+                <br>
+                Prioridad: {{noti.reunion.tipoReunion}}
+                <br>
+                <hr class="dropdown-divider">
+              </a></li>
+          </div>
+
+        </ul>
+      </div>
+      <div *ngIf="!loginService.userLoggedIn()">
+        <button class="p-1 me-2  btn btn-outline-light" (click)="login()">Iniciar Sesion</button>
+      </div>
+      <div class="dropdown text-end" *ngIf="loginService.userLoggedIn()">
+        <a href="#" class="d-block link-dark text-decoration-none text-white dropdown-toggle" id="dropdownUser1"
+          data-bs-toggle="dropdown" aria-expanded="false">
+          <img src="./assets/person.jpg" alt="mdo" width="32" height="32" class="rounded-circle">
+        </a>
+        <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+          <li><a class="dropdown-item disabled" disabled>Nombre : {{loginService.userLogged()}} </a></li>
+          <li><a class="dropdown-item disabled" disabled>Perfil: {{loginService.userPerfil()}}</a></li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li><a class="dropdown-item" (click)="logout()">Cerrar Sesion</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</header> -->

@@ -1,0 +1,63 @@
+<div class="container-fluid">
+    <app-header></app-header>
+    <div class="container-xl">
+        <div class="row">
+            <div class="row">
+                <h2 class="col-12 m-3 text-center">Audiencias</h2>
+            </div>
+            <div class="row">
+                <div class="col-3">
+                  <h3 class="text-end">Busqueda:</h3>
+                </div>
+                
+                <div class="col-9">
+                  <div class="search-name w-50">
+                    <input class="form-control" type="text" name="search" [(ngModel)]="titulo" autocomplete="off"
+                      placeholder="Buscar">
+                      <button class="btn btn-primary" (click)="buscarTitulo()">Buscar</button>
+                  </div>
+                </div>
+              </div>
+              
+            <div class="col">
+                <table class="table table-hover table-bordered table-responsive">
+                    <thead class="table-success">
+                        <tr>
+                            <th>Titulo</th>
+                            <th>Fecha</th>
+                            <th>Hora Inicio - Fin</th>
+                            <th>Oficina</th>
+                            <th>Recursos</th>
+                            <th>Prioridad</th>
+                            <th>Estado</th>
+                            <th>Participantes</th>
+                           
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let reunion of reuniones">
+                            <td>{{reunion.titulo}}</td>
+                            <td>{{reunion.fecha}}</td>
+                            <td>{{reunion.horaInicio}} - {{reunion.horaFin}}</td>
+                            <div >
+                           
+                            <td *ngIf="participa(reunion)"> {{reunion.oficina.numero}}</td>
+                            <td *ngIf="participa(reunion)">
+                                <li style="list-style:none" *ngFor="let recu of reunion.recursos">{{recu.recurso}}</li>
+                            </td >
+                            <td *ngIf="participa(reunion)">{{reunion.tipoReunion}}</td>
+                            <td *ngIf="participa(reunion)">{{reunion.estadoReunion}}</td>
+                            <td *ngIf="participa(reunion)">
+                                <li style="list-style:none" *ngFor="let emp of reunion.participantes">{{emp.Nombre}}
+                                    {{emp.Apellido}}</li>
+                            </td>
+                        </div>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    
+</div>
+<app-footer></app-footer>
