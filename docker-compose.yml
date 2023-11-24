@@ -4,44 +4,70 @@ services:
   backend:
     build:
       context: ./proybackendgrupo08
-    image: raquelvirreyra/backend:latest
+    image: backend-image
     container_name: backend-container
     environment:
-      - MONGODB_URI=mongodb://root:root@mongodb-container:27017/proyectofinalbd?authSource=admin
+      - MONGODB_URI=mongodb://mongo1:27017/proyectofinalbd?authSource=admin
     ports:
       - "3000:3000"
     networks:
       - tpfinalhia
+    volumes:
+      - backend-volume:/path/to/backend/data
 
   frontend:
     build:
       context: ./proyfrontendgrupo08
-    image: raquelvirreyra/frontend:latest
+    image: frontend-image
     container_name: frontend-container
     ports:
       - "80:80"
     networks:
       - tpfinalhia
+    volumes:
+      - frontend-volume:/path/to/frontend/data
 
-  mongodb:
+  mongodb1:
     image: mongo:4.4
-    container_name: mongodb-container
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: root
+    container_name: mongo1
+    command: mongod --replSet my-mongo-set --port 27017
     networks:
       - tpfinalhia
+    volumes:
+      - mongo-data1:/data/db
+      - mongo-conf1:/data/configdb
 
-  mongo-express:
+  mongodb2:
+    image: mongo:4.4
+    container_name: mongo2
+    command: mongod --replSet my-mongo-set --port 27017
+    networks:
+      - tpfinalhia
+    volumes:
+      - mongo-data2:/data/db
+      - mongo-conf2:/data/configdb
+
+  mongo-express1:
     image: mongo-express
-    container_name: mongo-express-container
+    container_name: mongo-express1
     environment:
-      ME_CONFIG_MONGODB_SERVER: mongodb-container
+      ME_CONFIG_MONGODB_SERVER: "mongo1"
       ME_CONFIG_MONGODB_ENABLE_ADMIN: "true"
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: root
     ports:
       - "8081:8081"
+    networks:
+      - tpfinalhia
+    volumes:
+      - mongo-express-volume:/etc/mongo-express
+
+  mongo-express2:
+    image: mongo-express
+    container_name: mongo-express2
+    environment:
+      ME_CONFIG_MONGODB_SERVER: "mongo2"
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: "true"
+    ports:
+      - "8082:8081"
     networks:
       - tpfinalhia
 
@@ -50,6 +76,8 @@ services:
     image: containrrr/watchtower
     environment:
       - WATCHTOWER_CLEANUP=true
+    networks:
+      - tpfinalhia
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
@@ -60,3 +88,12 @@ services:
 networks:
   tpfinalhia:
     driver: bridge
+
+volumes:
+  backend-volume:
+  frontend-volume:
+  mongo-data1:
+  mongo-data2:
+  mongo-conf1:
+  mongo-conf2:
+  mongo-express-volume:
